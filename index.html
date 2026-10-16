@@ -552,7 +552,7 @@ const fail = code => Object.assign(new Error(code), { code });
 let snap = { people: {}, games: {}, me: null };
 let snapLoaded = false;
 let lastSync = null;
-let syncState = "idle";   // idle | ok | offline
+let syncState = "idle";   // idle | ok | offline | retry (server answered, but couldn't save yet)
 
 async function remote(action, payload) {
   const ctrl = new AbortController();
@@ -691,8 +691,11 @@ async function push() {
   } catch (e) {
     if (e.code === "unknown_token") { forgetAccount("Não encontramos mais seu cadastro. Cadastre-se de novo para guardar seus jogos."); return; }
     retryMs = Math.min(retryMs ? retryMs * 2 : 5000, 60000);
-    setSync("offline");
-    if (retryMs === 5000) toast("Sem conexão agora. Seus jogos ficam guardados aqui e serão enviados assim que der.");
+    const offline = e.code === "offline";
+    setSync(offline ? "offline" : "retry");
+    if (retryMs === 5000) toast(offline
+      ? "Sem conexão agora. Seus jogos ficam guardados aqui e serão enviados assim que der."
+      : "Muita gente salvando ao mesmo tempo. Seus jogos ficam guardados aqui e serão enviados em instantes.");
   } finally {
     pushing = false;
     if (account && dirty() && !pushTimer) schedulePush(retryMs || 300);
@@ -1173,8 +1176,9 @@ function renderSync() {
   const time = lastSync ? lastSync.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : "";
   const text = syncState === "offline"
     ? (dirty() ? "Sem conexão: suas mudanças serão enviadas assim que der" : "Sem conexão no momento")
+    : syncState === "retry" ? "Servidor ocupado: suas mudanças serão enviadas em instantes"
     : (time ? `Atualizado às ${time}` : "Atualizando…");
-  el.className = "sync" + (syncState === "offline" ? " offline" : "");
+  el.className = "sync" + (syncState === "offline" || syncState === "retry" ? " offline" : "");
   el.innerHTML = `<span></span><button class="btn btn-sm" type="button" data-act="refresh">Atualizar</button>`;
   el.firstChild.textContent = text;
 }
