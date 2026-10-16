@@ -104,7 +104,8 @@ button, input, select { font: inherit; color: inherit; }
 
 /* ---------- Filters ---------- */
 .rail { display: grid; gap: 14px; }
-@media (min-width: 960px) { .rail { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); max-height: calc(100vh - 32px); overflow: auto; padding: 4px; margin: -4px; } }
+/* Sticky without an inner scrollbar: when the rail is taller than the window, a script sets a negative `top` so it scrolls with the page until its end shows, then stays. */
+@media (min-width: 960px) { .rail { position: sticky; top: var(--rail-top, 16px); } }
 .search { position: relative; }
 .search svg { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--muted); pointer-events: none; }
 .search input { -webkit-appearance: none; appearance: none; width: 100%; padding: 12px 14px 12px 40px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--surface); font-size: 16px; }
@@ -114,6 +115,11 @@ button, input, select { font: inherit; color: inherit; }
 .btn:hover { border-color: var(--brand); }
 .btn:disabled { opacity: .5; cursor: not-allowed; }
 .btn svg { width: 18px; height: 18px; flex: none; fill: none; }
+.btn-top { width: 100%; color: var(--ink); font-size: 14px; padding-inline: 10px; white-space: nowrap; }
+.rail-actions .btn { font-size: 14px; padding-inline: 10px; white-space: nowrap; }
+.btn-top svg { color: var(--heart); }
+.btn-top[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
+.btn-top[aria-pressed="true"] svg { color: currentColor; fill: currentColor; }
 .btn-roll { background: var(--accent-strong); color: var(--accent-ink); border-color: var(--accent-strong); }
 .btn-roll:hover { border-color: var(--ink); }
 .toggle-filters { display: inline-flex; }
@@ -157,6 +163,8 @@ select.sort { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5p
 .cx .bars { display: inline-grid; grid-template-columns: repeat(5, 10px); gap: 3px; }
 .cx .bars i { height: 6px; border-radius: 3px; background: var(--line); }
 .cx .bars i.on { background: var(--cx); }
+.rank { position: absolute; z-index: 2; top: 10px; left: 10px; min-width: 36px; height: 30px; padding: 0 10px; border-radius: 999px; background: var(--brand); color: var(--brand-ink); font: 800 14px/30px var(--font-display); text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,.18); font-variant-numeric: tabular-nums; }
+.rank.top { background: var(--accent-strong); color: var(--accent-ink); }
 .fav { position: absolute; z-index: 2; top: 8px; right: 8px; width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--surface); background: color-mix(in srgb, var(--surface) 88%, transparent); display: grid; place-items: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.15); color: var(--muted); }
 .fav svg { width: 20px; height: 20px; fill: none; }
 .fav[aria-pressed="true"] { color: var(--heart); }
@@ -345,6 +353,7 @@ dialog.reg { width: min(480px, calc(100vw - 24px)); }
         <svg aria-hidden="true"><use href="#i-search"/></svg>
         <input id="q" type="search" placeholder="Buscar jogo ou tema…" autocomplete="off" aria-label="Buscar jogo ou tema">
       </label>
+      <button class="btn btn-top" type="button" id="topBtn" aria-pressed="false"><svg aria-hidden="true"><use href="#i-heart"/></svg><span>Mostrar os mais procurados</span></button>
       <div class="rail-actions">
         <button class="btn toggle-filters" type="button" id="toggleFilters" aria-expanded="false" aria-controls="panel"><svg aria-hidden="true"><use href="#i-sliders"/></svg><span>Filtros</span></button>
         <button class="btn btn-roll" type="button" id="roll"><svg aria-hidden="true"><use href="#i-die"/></svg>Sortear um jogo</button>
@@ -839,8 +848,8 @@ function buildFilters() {
     if (t === "Minha lista") favChipCount = b.querySelector(".fav-count");
   });
   const opt = document.createElement("option");
-  opt.value = "pop"; opt.textContent = "Mais procurados";
-  $("sort").append(opt);
+  opt.value = "pop"; opt.textContent = "Mais corações";
+  $("sort").insertBefore(opt, $("sort").options[1]);
 }
 function syncFilters() {
   chipEls.forEach(c => c.el.setAttribute("aria-pressed", c.isOn()));
@@ -881,6 +890,7 @@ function buildCards() {
   tpl.innerHTML = GAMES.map(g => `
     <article class="card" id="jogo-${g.no}" data-no="${g.no}">
       <div class="shelf">${coverHTML(g, false)}</div>
+      <span class="rank" hidden></span>
       <div class="body">
         <span class="no">Nº ${pad(g.num)}</span>
         <h3><button class="open" type="button" data-no="${g.no}">${esc(g.name)}</button></h3>
@@ -936,6 +946,22 @@ function renderGrid() {
   const focusedCard = document.activeElement && document.activeElement.closest ? document.activeElement.closest("#grid .card") : null;
   cardEls.forEach((el, no) => { el.hidden = !shown.has(no); });
   if (focusedCard && focusedCard.hidden) $("resTitle").focus({ preventScroll: true });
+  const ranking = state.sort === "pop";
+  let place = 0, prev = null, seen = 0;
+  [...GAMES].sort(SORTS.pop).forEach(g => {
+    const c = countOf(g.no), badge = cardEls.get(g.no).querySelector(".rank");
+    seen++;
+    if (c !== prev) { place = seen; prev = c; }
+    const show = ranking && c > 0;
+    badge.hidden = !show;
+    if (show) {
+      badge.textContent = place + "º";
+      badge.classList.toggle("top", place <= 3);
+    }
+  });
+  $("resTitle").textContent = ranking ? "Ranking de corações" : "O acervo";
+  $("topBtn").setAttribute("aria-pressed", ranking);
+  $("topBtn").querySelector("span").textContent = ranking ? "Voltar à ordem A–Z" : "Mostrar os mais procurados";
   const n = current.length;
   $("count").textContent = n === GAMES.length ? `${n} jogos` : `${n} de ${GAMES.length} jogos`;
   $("empty").hidden = n > 0;
@@ -1375,6 +1401,17 @@ $("grid").addEventListener("click", e => {
 $("q").addEventListener("input", e => { state.q = e.target.value; update(); });
 $("sort").addEventListener("change", e => { state.sort = e.target.value in SORTS ? e.target.value : "no"; renderGrid(); });
 $("clear").addEventListener("click", clearAll);
+/* Shortcut to the hearts ranking; pressing again goes back to A–Z. */
+$("topBtn").addEventListener("click", () => {
+  state.sort = state.sort === "pop" ? "no" : "pop";
+  $("sort").value = state.sort;
+  renderGrid();
+  if (state.sort === "pop") {
+    const head = document.querySelector(".results-head");
+    if (head.getBoundingClientRect().top < 0 || head.getBoundingClientRect().top > innerHeight * 0.6)
+      head.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+  }
+});
 $("emptyClear").addEventListener("click", clearAll);
 $("toggleFilters").addEventListener("click", () => {
   const open = $("panel").classList.toggle("open");
@@ -1394,6 +1431,16 @@ window.addEventListener("storage", e => {
   if (e.key === FAV_KEY && account) { favs.clear(); cleanIds(store.get(FAV_KEY, [])).forEach(n => favs.add(n)); favsChanged(); }
 });
 
+/* ---------- Filter rail: sticky, never its own scrollbar ---------- */
+function fitRail() {
+  const rail = document.querySelector(".rail");
+  const gap = 16;
+  const top = Math.min(gap, window.innerHeight - rail.offsetHeight - gap);
+  rail.style.setProperty("--rail-top", top + "px");
+}
+window.addEventListener("resize", fitRail);
+if ("ResizeObserver" in window) new ResizeObserver(fitRail).observe(document.querySelector(".rail"));
+
 /* ---------- Start ---------- */
 buildStats(); buildMarquee(); buildFilters(); buildCards();
 $("demoNote").hidden = LIVE && !BAD_CONFIG;
@@ -1405,6 +1452,7 @@ state.q = $("q").value;
 if ($("sort").value in SORTS) state.sort = $("sort").value;
 renderAccount();
 favsChanged();
+fitRail();
 refreshList();
 const m0 = location.hash.match(/^#jogo-(\d+)$/);
 if (location.hash === "#meus-jogos") setView("mine", { fromHistory: true });
