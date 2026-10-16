@@ -738,11 +738,12 @@ function avatarHTML(p) {
 /* ---------- Catalog state ---------- */
 const state = { q: "", players: null, time: null, cx: new Set(), tags: new Set(), sort: "no" };
 const PLAYER_OPTS = [1, 2, 3, 4, 5, 6, 7, 8];
+/* Time the group has: each option shows every game that fits in it. No time chip = every game. */
 const TIME_OPTS = [
   { id: "30", label: "Até 30 min", test: g => g.tmax <= 30 },
   { id: "60", label: "Até 1 h", test: g => g.tmax <= 60 },
   { id: "120", label: "Até 2 h", test: g => g.tmax <= 120 },
-  { id: "long", label: "Mais de 2 h", test: g => g.tmax > 120 }
+  { id: "180", label: "Até 3 h", test: g => g.tmax <= 180 }
 ];
 const TAG_OPTS = ["Minha lista", "Modo solo", "Cooperativo", "Party game", "Grupos grandes"];
 const SORTS = {
