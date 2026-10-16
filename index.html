@@ -28,12 +28,13 @@
   --navy: #113651;
   --logo-bg: #FEFEFC;
   --accent: #E84C1F;
+  --accent-strong: #C4401A;
   --accent-ink: #FFFFFF;
   --heart: #E84C1F;
-  --c1: #4C8A57;
-  --c2: #3A7FA0;
-  --c3: #C98515;
-  --c4: #E04A1F;
+  --c1: #3D7848;
+  --c2: #2D6C8A;
+  --c3: #966000;
+  --c4: #B93A14;
   --shadow: 0 1px 2px rgba(17, 54, 81, .08), 0 8px 24px -12px rgba(17, 54, 81, .3);
   --font-display: "Lexend", "Segoe UI", system-ui, sans-serif;
   --font-body: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -43,7 +44,7 @@
   :root:not([data-theme="light"]) {
     --bg: #0D1A27; --surface: #142536; --shelf: #1C3044; --ink: #EAF0F5; --muted: #9AAEC1;
     --line: #243A50; --brand: #9CC2E6; --brand-ink: #0D1A27; --navy: #08131F;
-    --accent: #F26A3A; --accent-ink: #0D1A27; --heart: #FF7A4D;
+    --accent: #F26A3A; --accent-strong: #F26A3A; --accent-ink: #0D1A27; --heart: #FF7A4D;
     --c1: #7CC089; --c2: #6CB4D6; --c3: #F0B04A; --c4: #FF7A4D;
     --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px -12px rgba(0,0,0,.7);
     color-scheme: dark;
@@ -52,14 +53,15 @@
 :root[data-theme="dark"] {
   --bg: #0D1A27; --surface: #142536; --shelf: #1C3044; --ink: #EAF0F5; --muted: #9AAEC1;
   --line: #243A50; --brand: #9CC2E6; --brand-ink: #0D1A27; --navy: #08131F;
-  --accent: #F26A3A; --accent-ink: #0D1A27; --heart: #FF7A4D;
+  --accent: #F26A3A; --accent-strong: #F26A3A; --accent-ink: #0D1A27; --heart: #FF7A4D;
   --c1: #7CC089; --c2: #6CB4D6; --c3: #F0B04A; --c4: #FF7A4D;
   --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px -12px rgba(0,0,0,.7);
   color-scheme: dark;
 }
 /* The hero always keeps the logo's own off-white ground so the artwork blends in, in both themes. */
-.hero { --h-ink: #113651; --h-muted: #4E6274; --h-accent: #E84C1F; }
+.hero { --h-ink: #113651; --h-muted: #4E6274; --h-accent: #E84C1F; --h-accent-text: #C4401A; }
 
+html { scrollbar-gutter: stable; }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -77,7 +79,7 @@ button, input, select { font: inherit; color: inherit; }
 .logo img { display: block; width: 100%; height: auto; }
 @media (max-width: 759px) { .logo { width: min(78%, 320px); } }
 .hero-text { display: grid; gap: 16px; min-width: 0; }
-.eyebrow { font-family: var(--font-display); font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--h-accent); margin: 0; }
+.eyebrow { font-family: var(--font-display); font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--h-accent-text); margin: 0; }
 .hero h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(30px, 4.6vw, 50px); line-height: 1.05; letter-spacing: .01em; margin: 0; text-wrap: balance; color: var(--h-ink); }
 .dash { display: block; width: 56px; height: 4px; border-radius: 2px; background: var(--h-accent); }
 .lede { max-width: 54ch; font-size: 17px; margin: 0; color: var(--h-muted); }
@@ -90,10 +92,9 @@ button, input, select { font: inherit; color: inherit; }
 .trail .ground { fill: var(--navy); stroke: none; }
 .marquee { background: var(--navy); padding-block: 14px 24px; }
 .marquee-clip { overflow: hidden; padding-block: 6px; mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
-.marquee-track { display: flex; gap: 14px; padding-right: 14px; width: max-content; animation: slide 140s linear infinite; }
+.marquee-track { display: flex; gap: 14px; padding-right: 14px; width: max-content; animation: slide 140s linear infinite; will-change: transform; }
 .marquee:hover .marquee-track, .marquee:focus-within .marquee-track { animation-play-state: paused; }
 .marquee button { flex: none; height: 104px; padding: 0; border: 0; background: none; cursor: pointer; border-radius: 6px; transition: transform .2s; }
-.marquee button:hover { transform: translateY(-4px) rotate(-1.5deg); }
 .marquee img { height: 104px; width: auto; border-radius: 5px; box-shadow: 0 8px 18px -8px rgba(0,0,0,.6); display: block; }
 @keyframes slide { to { transform: translateX(-50%); } }
 
@@ -103,17 +104,17 @@ main .wrap { padding-block: 28px 64px; display: grid; gap: 28px; }
 
 /* ---------- Filters ---------- */
 .rail { display: grid; gap: 14px; }
-@media (min-width: 960px) { .rail { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); max-height: calc(100vh - 32px); overflow: auto; padding-right: 4px; } }
+@media (min-width: 960px) { .rail { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); max-height: calc(100vh - 32px); overflow: auto; padding: 4px; margin: -4px; } }
 .search { position: relative; }
-.search svg { position: absolute; left: 13px; top: 50%; translate: 0 -50%; width: 18px; height: 18px; color: var(--muted); pointer-events: none; }
-.search input { width: 100%; padding: 12px 14px 12px 40px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--surface); font-size: 16px; }
+.search svg { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--muted); pointer-events: none; }
+.search input { -webkit-appearance: none; appearance: none; width: 100%; padding: 12px 14px 12px 40px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--surface); font-size: 16px; }
 .search input:focus { border-color: var(--brand); outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 25%, transparent); }
 .rail-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 14px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--surface); font-weight: 700; cursor: pointer; min-height: 44px; }
 .btn:hover { border-color: var(--brand); }
 .btn:disabled { opacity: .5; cursor: not-allowed; }
-.btn svg { width: 18px; height: 18px; flex: none; }
-.btn-roll { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn svg { width: 18px; height: 18px; flex: none; fill: none; }
+.btn-roll { background: var(--accent-strong); color: var(--accent-ink); border-color: var(--accent-strong); }
 .btn-roll:hover { border-color: var(--ink); }
 .toggle-filters { display: inline-flex; }
 @media (min-width: 960px) { .toggle-filters { display: none; } .rail-actions { grid-template-columns: 1fr; } }
@@ -127,7 +128,7 @@ main .wrap { padding-block: 28px 64px; display: grid; gap: 28px; }
 .chip[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
 .chip .dot { width: 8px; height: 8px; border-radius: 50%; }
 .chip.num { min-width: 40px; justify-content: center; padding-inline: 8px; }
-select.sort { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--bg); font-weight: 600; min-height: 42px; }
+select.sort { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--bg); font-weight: 600; font-size: 16px; min-height: 44px; }
 .clear { justify-self: start; background: none; border: 0; padding: 4px 0; color: var(--brand); font-weight: 700; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- Results ---------- */
@@ -138,14 +139,13 @@ select.sort { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5p
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 18px; }
 @media (max-width: 520px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }
 .card { position: relative; display: grid; grid-template-rows: auto 1fr; background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--line); overflow: hidden; transition: transform .18s, box-shadow .18s, border-color .18s; }
-.card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: color-mix(in srgb, var(--brand) 40%, var(--line)); }
+@media (hover: hover) { .card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--brand); border-color: color-mix(in srgb, var(--brand) 40%, var(--line)); } .card:hover .shelf img { transform: scale(1.03) rotate(-.6deg); } .marquee button:hover { transform: translateY(-4px) rotate(-1.5deg); } }
 .card .open { all: unset; cursor: pointer; }
 .card .open::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: var(--radius); }
 .card .open:focus-visible { outline: none; }
 .card .open:focus-visible::after { outline: 3px solid var(--brand); outline-offset: -3px; }
 .shelf { aspect-ratio: 1 / 1; max-width: 100%; background: var(--shelf); display: flex; align-items: center; justify-content: center; padding: 16px; }
 .shelf img { max-width: 100%; max-height: 100%; width: auto; height: auto; border-radius: 4px; box-shadow: 0 10px 20px -10px rgba(20, 14, 40, .55), 0 2px 4px rgba(20, 14, 40, .15); transition: transform .25s; }
-.card:hover .shelf img { transform: scale(1.03) rotate(-.6deg); }
 .body { padding: 12px 14px 14px; display: grid; gap: 8px; align-content: start; }
 .no { font-size: 11px; font-weight: 800; letter-spacing: .1em; color: var(--muted); font-variant-numeric: tabular-nums; }
 .card h3 { margin: 0; font-family: var(--font-display); font-size: 16px; line-height: 1.25; font-weight: 600; text-wrap: balance; }
@@ -156,10 +156,10 @@ select.sort { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5p
 .cx .bars { display: inline-grid; grid-template-columns: repeat(4, 12px); gap: 3px; }
 .cx .bars i { height: 6px; border-radius: 3px; background: var(--line); }
 .cx .bars i.on { background: var(--cx); }
-.fav { position: absolute; z-index: 2; top: 8px; right: 8px; width: 38px; height: 38px; border-radius: 50%; border: 0; background: color-mix(in srgb, var(--surface) 88%, transparent); display: grid; place-items: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.15); color: var(--muted); }
-.fav svg { width: 20px; height: 20px; }
+.fav { position: absolute; z-index: 2; top: 8px; right: 8px; width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--surface); background: color-mix(in srgb, var(--surface) 88%, transparent); display: grid; place-items: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.15); color: var(--muted); }
+.fav svg { width: 20px; height: 20px; fill: none; }
 .fav[aria-pressed="true"] { color: var(--heart); }
-.fav[aria-pressed="true"] svg path { fill: currentColor; }
+.fav[aria-pressed="true"] svg { fill: currentColor; }
 .empty { padding: 48px 20px; margin-top: 4px; text-align: center; border: 2px dashed var(--line); border-radius: var(--radius); color: var(--muted); display: grid; gap: 10px; justify-items: center; }
 .empty strong { color: var(--ink); font-size: 18px; }
 
@@ -193,16 +193,16 @@ dialog[open] { animation: pop .22s ease-out; }
 .facts .cx { font-size: 14px; flex-direction: column; align-items: flex-start; gap: 6px; white-space: nowrap; }
 .summary { margin: 0; font-size: 17px; line-height: 1.6; max-width: 60ch; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.tag { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: color-mix(in srgb, var(--brand) 14%, transparent); color: var(--brand); }
+.tag { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: var(--bg); background: color-mix(in srgb, var(--brand) 14%, transparent); color: var(--brand); }
 .dlg-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .dlg-actions a.btn { color: var(--ink); text-decoration: none; }
-.btn-fav[aria-pressed="true"] { background: color-mix(in srgb, var(--heart) 14%, var(--surface)); border-color: var(--heart); color: var(--heart); }
-.btn-fav[aria-pressed="true"] svg path { fill: currentColor; }
+.btn-fav[aria-pressed="true"] { background: var(--surface); background: color-mix(in srgb, var(--heart) 14%, var(--surface)); border-color: var(--heart); color: var(--heart); }
+.btn-fav[aria-pressed="true"] svg { fill: currentColor; }
 .dlg-nav { display: flex; justify-content: space-between; align-items: center; gap: 8px; border-top: 1.5px solid var(--line); padding-top: 14px; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .icon-btn { width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--surface); display: grid; place-items: center; cursor: pointer; }
 .icon-btn:hover { border-color: var(--brand); }
 .icon-btn svg { width: 20px; height: 20px; }
-.close { position: absolute; top: 12px; right: 12px; z-index: 2; }
+.close { position: sticky; top: 12px; z-index: 3; margin: 12px 12px -54px auto; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
 .rolling .big img, .rolling .big .ph { animation: shake .5s ease-in-out; }
 @keyframes shake { 0%,100% { transform: none; } 25% { transform: rotate(-4deg) scale(.96); } 60% { transform: rotate(3deg) scale(1.02); } }
 
@@ -212,6 +212,7 @@ footer .wrap { padding-block: 22px 32px; color: var(--muted); font-size: 13px; d
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .marquee-clip { overflow-x: auto; }
+  .marquee-track .dup { display: none; }
 }
 </style>
 </head>
@@ -219,7 +220,7 @@ footer .wrap { padding-block: 22px 32px; color: var(--muted); font-size: 13px; d
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-people" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.4.1 4 1.7 4.5 4.3"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
-  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10.2C4.5 7 6.6 5 9 5c1.4 0 2.4.7 3 1.6C12.6 5.7 13.6 5 15 5c2.4 0 4.5 2 4.5 4.8C19.5 15.4 12 20 12 20Z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10.2C4.5 7 6.6 5 9 5c1.4 0 2.4.7 3 1.6C12.6 5.7 13.6 5 15 5c2.4 0 4.5 2 4.5 4.8C19.5 15.4 12 20 12 20Z"/></symbol>
   <symbol id="i-die" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><circle cx="8.5" cy="8.5" r="1.3" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.3" fill="currentColor"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1.3" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1.3" fill="currentColor"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></symbol>
   <symbol id="i-sliders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></symbol>
@@ -244,7 +245,7 @@ footer .wrap { padding-block: 22px 32px; color: var(--muted); font-size: 13px; d
     <path class="ground" d="M0 26 C 220 6, 420 34, 640 18 S 1020 4, 1200 16 L1200 36 L0 36 Z"/>
     <path d="M0 18 C 220 -2, 420 26, 640 10 S 1020 -4, 1200 8"/>
   </svg>
-  <div class="marquee" aria-label="Capas do acervo"><div class="marquee-clip"><div class="marquee-track" id="marquee"></div></div></div>
+  <div class="marquee" role="group" aria-label="Capas do acervo"><div class="marquee-clip"><div class="marquee-track" id="marquee"></div></div></div>
 </header>
 
 <main>
@@ -377,7 +378,7 @@ const RAW = [
   [33,"The Vale of Eternity","2-4","30-60","Leve-Média","Domine diversas criaturas míticas, aproveitando seus poderes para invocar dragões."],
   [34,"Thread","1-4","30-45","Leve-Média","Quebra-cabeça elegante de tecelagem e conexão de padrões têxteis que exige visão espacial e planejamento cuidadoso."],
   [35,"Tigris & Euphrates","2-4","90-120","Média-Alta","Clássico magistral de controle de áreas e conflitos na Mesopotâmia antiga com pontuação determinada pela sua categoria mais fraca."],
-  [36,"Tiranos da Umbraterna","2-4","60-90","Média","Lidere uma casa Drow e construa o melhor deck para estabelecer a supremacia sobre o Subterrâneo."],
+  [36,"Tiranos da Umbreterna","2-4","60-90","Média","Lidere uma casa Drow e construa o melhor deck para estabelecer a supremacia sobre o Subterrâneo."],
   [37,"Uma Aventura Fantástica","2-5","30-45","Leve","RPG de tabuleiro introdutório com masmorras, monstros e missões cooperativas ideal para iniciantes e famílias."],
   [38,"Wondrous Creatures","1-4","60-90","Média","Estratégia envolvente de alocação de trabalhadores e sinergias de cartas para explorar santuários e acolher criaturas mágicas."],
   [39,"Wyrmspan","1-5","60-90","Média","Construa um santuário cavernoso para dragões de todos os tipos e tamanhos!"]
@@ -392,6 +393,8 @@ const CX = {
 const COOP = new Set([5, 6, 29, 37]);
 const PARTY = new Set([12, 22]);
 /* Name to search on Ludopedia when it differs from the catalog name; null = not listed there. */
+/* Other names people may search for (original or Brazilian titles). */
+const ALIASES = { 4: "Concordia", 5: "Hues and Cues Cores com Dicas", 10: "Exploradores de Navoria", 21: "Relógio Astronômico de Praga", 28: "Busca por Inteligência Extraterrestre", 36: "Umbraterna Tyrants of the Underdark", 37: "A Wild Venture", 38: "Criaturas Maravilhosas" };
 const LUDO_SEARCH = { 4: "Concordia", 5: "Cores com Dicas", 10: "Exploradores de Navoria", 21: "Orloj", 36: "Tiranos da Umbreterna", 38: "Criaturas Maravilhosas", 32: null, 34: null };
 
 const GAMES = RAW.map(([no, name, pl, du, cx, summary]) => {
@@ -402,7 +405,7 @@ const GAMES = RAW.map(([no, name, pl, du, cx, summary]) => {
   if (COOP.has(no)) tags.push("Cooperativo");
   if (PARTY.has(no)) tags.push("Party game");
   if (pmax >= 6) tags.push("Grupos grandes");
-  const hay = norm(`${name} ${summary} ${cx} ${tags.join(" ")}`);
+  const hay = norm(`${name} ${ALIASES[no] || ""} ${summary} ${cx} ${tags.join(" ")}`);
   return { no, name, pmin, pmax, tmin, tmax, cx, lvl: CX[cx].lvl, summary, tags, hay, cover: COVERS[no] || null };
 });
 const BY_NO = new Map(GAMES.map(g => [g.no, g]));
@@ -424,7 +427,8 @@ const store = {
   get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
 };
-const savedFavs = store.get("ml-favs", []);
+const FAV_KEY = "maratona-ludica-2026-favoritos";
+const savedFavs = store.get(FAV_KEY, []);
 const favs = new Set(Array.isArray(savedFavs) ? savedFavs.filter(n => BY_NO.has(n)) : []);
 const state = { q: "", players: null, time: null, cx: new Set(), tags: new Set(), sort: "no" };
 
@@ -467,7 +471,7 @@ function buildFilters() {
     () => state.cx.has(k), () => { state.cx.has(k) ? state.cx.delete(k) : state.cx.add(k); }));
   TAG_OPTS.forEach(t => {
     const html = t === "Minha lista"
-      ? `<svg width="14" height="14" style="color:var(--heart)" aria-hidden="true"><use href="#i-heart"/></svg>Minha lista (<span class="fav-count">0</span>)`
+      ? `<svg width="14" height="14" style="color:var(--heart);fill:none" aria-hidden="true"><use href="#i-heart"/></svg><span>Minha lista (<span class="fav-count">0</span>)</span>`
       : t;
     const b = makeChip($("fTags"), html, () => state.tags.has(t), () => { state.tags.has(t) ? state.tags.delete(t) : state.tags.add(t); });
     if (t === "Minha lista") favChipCount = b.querySelector(".fav-count");
@@ -496,7 +500,7 @@ function buildStats() {
 function buildMarquee() {
   const items = GAMES.filter(g => g.cover)
     .map(g => `<button type="button" data-no="${g.no}" aria-label="Abrir ${esc(g.name)}"><img src="${g.cover}" alt=""></button>`).join("");
-  $("marquee").innerHTML = items + items.replace(/<button /g, '<button tabindex="-1" aria-hidden="true" ');
+  $("marquee").innerHTML = items + items.replace(/<button /g, '<button class="dup" tabindex="-1" aria-hidden="true" ');
   $("marquee").addEventListener("click", e => { const b = e.target.closest("button[data-no]"); if (b) openGame(+b.dataset.no); });
 }
 
@@ -567,7 +571,7 @@ function clearAll() {
 
 function toggleFav(no) {
   favs.has(no) ? favs.delete(no) : favs.add(no);
-  store.set("ml-favs", [...favs]);
+  store.set(FAV_KEY, [...favs]);
   syncFavButtons();
   update();
   if (dlg.open && openNo === no) fillDialog(BY_NO.get(no));
@@ -577,6 +581,7 @@ function toggleFav(no) {
 const dlg = $("dlg");
 let openNo = null;
 let closingFromHistory = false;
+let lastFocus = null;
 const navList = () => current.some(g => g.no === openNo) ? current : GAMES;
 
 function fillDialog(g) {
@@ -605,6 +610,7 @@ function openGame(no, { fromHistory = false } = {}) {
   fillDialog(g);
   const hash = "#jogo-" + no;
   if (!dlg.open) {
+    if (!dlg.contains(document.activeElement)) lastFocus = document.activeElement;
     dlg.showModal();
     /* A history entry lets the phone's Back button close the card instead of leaving the site. */
     if (!fromHistory) { try { history.pushState({ ml: true }, "", hash); } catch {} }
@@ -620,6 +626,10 @@ function step(d) {
 dlg.addEventListener("close", () => {
   stopRoll();
   dlg.classList.remove("rolling");
+  /* A filtered-out card is hidden, so fall back to the search field rather than losing focus. */
+  const back = lastFocus && lastFocus.isConnected && lastFocus.getClientRects().length ? lastFocus : $("q");
+  try { back.focus({ preventScroll: true }); } catch {}
+  lastFocus = null;
   if (closingFromHistory) { closingFromHistory = false; return; }
   if (history.state && history.state.ml) { try { history.back(); } catch {} }
   else { try { history.replaceState(null, "", location.pathname + location.search); } catch {} }
@@ -683,7 +693,9 @@ $("toggleFilters").addEventListener("click", () => {
 });
 
 buildStats(); buildMarquee(); buildFilters(); buildCards(); syncFavButtons();
-if ($("sort").value in SORTS) state.sort = $("sort").value;   /* browsers may restore the select after a reload */
+/* Browsers may restore the search text and the sort after a reload; keep state in step with what is shown. */
+state.q = $("q").value;
+if ($("sort").value in SORTS) state.sort = $("sort").value;
 update();
 const m0 = location.hash.match(/^#jogo-(\d+)$/);
 if (m0 && BY_NO.has(+m0[1])) openGame(+m0[1], { fromHistory: true });
