@@ -93,7 +93,6 @@ button, input, select { font: inherit; color: inherit; }
 .marquee { background: var(--navy); padding-block: 14px 24px; }
 .marquee-clip { overflow: hidden; padding-block: 6px; mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
 .marquee-track { display: flex; gap: 14px; padding-right: 14px; width: max-content; animation: slide 140s linear infinite; will-change: transform; }
-.marquee:hover .marquee-track, .marquee:focus-within .marquee-track { animation-play-state: paused; }
 .marquee button { flex: none; height: 104px; padding: 0; border: 0; background: none; cursor: pointer; border-radius: 6px; transition: transform .2s; }
 .marquee img { height: 104px; width: auto; border-radius: 5px; box-shadow: 0 8px 18px -8px rgba(0,0,0,.6); display: block; }
 @keyframes slide { to { transform: translateX(-50%); } }
@@ -135,11 +134,12 @@ select.sort { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5p
 .results-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 16px; }
 .results-head h2 { font-family: var(--font-display); font-weight: 700; font-size: 24px; margin: 0; display: grid; gap: 6px; }
 .results-head h2::after { content: ""; width: 40px; height: 4px; border-radius: 2px; background: var(--accent); }
+.results-head h2:focus { outline: none; }
 .results-head p { margin: 0; color: var(--muted); font-variant-numeric: tabular-nums; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 18px; }
 @media (max-width: 520px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }
 .card { position: relative; display: grid; grid-template-rows: auto 1fr; background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--line); overflow: hidden; transition: transform .18s, box-shadow .18s, border-color .18s; }
-@media (hover: hover) { .card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--brand); border-color: color-mix(in srgb, var(--brand) 40%, var(--line)); } .card:hover .shelf img { transform: scale(1.03) rotate(-.6deg); } .marquee button:hover { transform: translateY(-4px) rotate(-1.5deg); } }
+@media (hover: hover) { .marquee:hover .marquee-track { animation-play-state: paused; } .card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--brand); border-color: color-mix(in srgb, var(--brand) 40%, var(--line)); } .card:hover .shelf img { transform: scale(1.03) rotate(-.6deg); } .marquee button:hover { transform: translateY(-4px) rotate(-1.5deg); } }
 .card .open { all: unset; cursor: pointer; }
 .card .open::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: var(--radius); }
 .card .open:focus-visible { outline: none; }
@@ -245,7 +245,7 @@ footer .wrap { padding-block: 22px 32px; color: var(--muted); font-size: 13px; d
     <path class="ground" d="M0 26 C 220 6, 420 34, 640 18 S 1020 4, 1200 16 L1200 36 L0 36 Z"/>
     <path d="M0 18 C 220 -2, 420 26, 640 10 S 1020 -4, 1200 8"/>
   </svg>
-  <div class="marquee" role="group" aria-label="Capas do acervo"><div class="marquee-clip"><div class="marquee-track" id="marquee"></div></div></div>
+  <div class="marquee" aria-hidden="true"><div class="marquee-clip"><div class="marquee-track" id="marquee"></div></div></div>
 </header>
 
 <main>
@@ -292,7 +292,7 @@ footer .wrap { padding-block: 22px 32px; color: var(--muted); font-size: 13px; d
 
     <section aria-labelledby="resTitle">
       <div class="results-head">
-        <h2 id="resTitle">O acervo</h2>
+        <h2 id="resTitle" tabindex="-1">O acervo</h2>
         <p id="count" aria-live="polite"></p>
       </div>
       <div class="grid" id="grid"></div>
@@ -392,9 +392,9 @@ const CX = {
 };
 const COOP = new Set([5, 6, 29, 37]);
 const PARTY = new Set([12, 22]);
-/* Name to search on Ludopedia when it differs from the catalog name; null = not listed there. */
 /* Other names people may search for (original or Brazilian titles). */
 const ALIASES = { 4: "Concordia", 5: "Hues and Cues Cores com Dicas", 10: "Exploradores de Navoria", 21: "Relógio Astronômico de Praga", 28: "Busca por Inteligência Extraterrestre", 36: "Umbraterna Tyrants of the Underdark", 37: "A Wild Venture", 38: "Criaturas Maravilhosas" };
+/* Name to search on Ludopedia when it differs from the catalog name; null = not listed there. */
 const LUDO_SEARCH = { 4: "Concordia", 5: "Cores com Dicas", 10: "Exploradores de Navoria", 21: "Orloj", 36: "Tiranos da Umbreterna", 38: "Criaturas Maravilhosas", 32: null, 34: null };
 
 const GAMES = RAW.map(([no, name, pl, du, cx, summary]) => {
@@ -418,8 +418,8 @@ const pad = n => String(n).padStart(2, "0");
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
 const cxHTML = g => `<span class="cx" style="--cx:${CX[g.cx].color}"><span class="bars" aria-hidden="true">${[1, 2, 3, 4].map(i => `<i class="${i <= g.lvl ? "on" : ""}"></i>`).join("")}</span>${g.cx}</span>`;
-const coverHTML = g => g.cover
-  ? `<img src="${g.cover}" alt="Capa de ${esc(g.name)}" decoding="async">`
+const coverHTML = (g, withAlt = true) => g.cover
+  ? `<img src="${g.cover}" alt="${withAlt ? "Capa de " + esc(g.name) : ""}" decoding="async">`
   : `<div class="ph" style="--cx:${CX[g.cx].color}" role="img" aria-label="${esc(g.name)} (capa indisponível)"><small>Nº ${pad(g.no)}</small><b>${esc(g.name)}</b><small>Maratona Lúdica</small></div>`;
 
 /* ---------- State ---------- */
@@ -499,9 +499,11 @@ function buildStats() {
 
 function buildMarquee() {
   const items = GAMES.filter(g => g.cover)
-    .map(g => `<button type="button" data-no="${g.no}" aria-label="Abrir ${esc(g.name)}"><img src="${g.cover}" alt=""></button>`).join("");
-  $("marquee").innerHTML = items + items.replace(/<button /g, '<button class="dup" tabindex="-1" aria-hidden="true" ');
+    .map(g => `<button type="button" tabindex="-1" data-no="${g.no}" title="${esc(g.name)}"><img src="${g.cover}" alt=""></button>`).join("");
+  $("marquee").innerHTML = items + items.replace(/<button /g, '<button class="dup" ');
   $("marquee").addEventListener("click", e => { const b = e.target.closest("button[data-no]"); if (b) openGame(+b.dataset.no); });
+  /* The strip is hidden from assistive tech, so clicking it must not move focus into it. */
+  $("marquee").addEventListener("mousedown", e => e.preventDefault());
 }
 
 /* ---------- Cards (built once; filtering only shows, hides and reorders them) ---------- */
@@ -510,7 +512,7 @@ function buildCards() {
   const tpl = document.createElement("template");
   tpl.innerHTML = GAMES.map(g => `
     <article class="card" id="jogo-${g.no}" data-no="${g.no}">
-      <div class="shelf">${coverHTML(g)}</div>
+      <div class="shelf">${coverHTML(g, false)}</div>
       <div class="body">
         <span class="no">Nº ${pad(g.no)}</span>
         <h3><button class="open" type="button" data-no="${g.no}">${esc(g.name)}</button></h3>
@@ -545,13 +547,19 @@ function matches(g, words) {
 }
 
 let current = [];
+let renderedSort = null;
 function renderGrid() {
   const words = norm(state.q.trim()).split(/\s+/).filter(Boolean);
   current = GAMES.filter(g => matches(g, words)).sort(SORTS[state.sort]);
   const shown = new Set(current.map(g => g.no));
-  const grid = $("grid");
-  current.forEach(g => grid.append(cardEls.get(g.no)));   /* re-appending moves nodes into sort order */
+  if (renderedSort !== state.sort) {
+    /* Re-appending moves nodes into sort order. Done only when the sort changes, because moving a node drops keyboard focus inside it. */
+    [...GAMES].sort(SORTS[state.sort]).forEach(g => $("grid").append(cardEls.get(g.no)));
+    renderedSort = state.sort;
+  }
+  const focusedCard = document.activeElement && document.activeElement.closest ? document.activeElement.closest("#grid .card") : null;
   cardEls.forEach((el, no) => { el.hidden = !shown.has(no); });
+  if (focusedCard && focusedCard.hidden) $("resTitle").focus({ preventScroll: true });
   const n = current.length;
   $("count").textContent = n === GAMES.length ? `${n} jogos` : `${n} de ${GAMES.length} jogos`;
   $("empty").hidden = n > 0;
@@ -610,7 +618,8 @@ function openGame(no, { fromHistory = false } = {}) {
   fillDialog(g);
   const hash = "#jogo-" + no;
   if (!dlg.open) {
-    if (!dlg.contains(document.activeElement)) lastFocus = document.activeElement;
+    const ae = document.activeElement;
+    lastFocus = ae && !dlg.contains(ae) && !$("marquee").contains(ae) && ae !== document.body ? ae : null;
     dlg.showModal();
     /* A history entry lets the phone's Back button close the card instead of leaving the site. */
     if (!fromHistory) { try { history.pushState({ ml: true }, "", hash); } catch {} }
@@ -626,10 +635,15 @@ function step(d) {
 dlg.addEventListener("close", () => {
   stopRoll();
   dlg.classList.remove("rolling");
-  /* A filtered-out card is hidden, so fall back to the search field rather than losing focus. */
-  const back = lastFocus && lastFocus.isConnected && lastFocus.getClientRects().length ? lastFocus : $("q");
-  try { back.focus({ preventScroll: true }); } catch {}
-  lastFocus = null;
+  /* Return focus to the opener; if its card was filtered out meanwhile, to the list heading.
+     Never to the search field, which would pop up the phone keyboard. */
+  /* Browsers may already have put focus back on the element that had it; never leave it in the hidden cover strip. */
+  if ($("marquee").contains(document.activeElement)) document.activeElement.blur();
+  const opener = lastFocus; lastFocus = null;
+  if (opener && opener.isConnected) {
+    const target = opener.getClientRects().length ? opener : $("resTitle");
+    try { target.focus({ preventScroll: true }); } catch {}
+  }
   if (closingFromHistory) { closingFromHistory = false; return; }
   if (history.state && history.state.ml) { try { history.back(); } catch {} }
   else { try { history.replaceState(null, "", location.pathname + location.search); } catch {} }
