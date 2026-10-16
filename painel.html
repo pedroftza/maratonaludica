@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#113651">
+<link rel="icon" type="image/png" href="icone.png">
+<title>Maratona Lúdica · Painel da organização</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700;800&family=Figtree:wght@400;500;600;700;800&display=swap">
+<style>
+/* Painel da organização: só lê o que o site já mostra (nomes e jogos marcados). Mesmas cores do catálogo. */
+:root {
+  --bg: #F7F6F1; --surface: #FFFFFF; --shelf: #F1EBDD; --ink: #132A3E; --muted: #56687A; --line: #E2DCCD;
+  --brand: #113651; --brand-ink: #FFFFFF; --accent: #E84C1F; --accent-strong: #C4401A; --accent-ink: #FFFFFF;
+  --bar: #113651; --track: #EFEADF;
+  --c1: #3D7848; --c2: #2D6C8A; --c3: #966000; --c4: #B93A14; --c5: #8A2252;
+  --shadow: 0 1px 2px rgba(17, 54, 81, .08), 0 8px 24px -12px rgba(17, 54, 81, .3);
+  --font-display: "Lexend", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --radius: 14px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1A27; --surface: #142536; --shelf: #1C3044; --ink: #EAF0F5; --muted: #9AAEC1; --line: #243A50;
+    --brand: #9CC2E6; --brand-ink: #0D1A27; --accent: #F26A3A; --accent-strong: #F26A3A; --accent-ink: #0D1A27;
+    --bar: #9CC2E6; --track: #1C3044;
+    --c1: #7CC089; --c2: #6CB4D6; --c3: #F0B04A; --c4: #FF7A4D; --c5: #F48FBF;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px -12px rgba(0,0,0,.7);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D1A27; --surface: #142536; --shelf: #1C3044; --ink: #EAF0F5; --muted: #9AAEC1; --line: #243A50;
+  --brand: #9CC2E6; --brand-ink: #0D1A27; --accent: #F26A3A; --accent-strong: #F26A3A; --accent-ink: #0D1A27;
+  --bar: #9CC2E6; --track: #1C3044;
+  --c1: #7CC089; --c2: #6CB4D6; --c3: #F0B04A; --c4: #FF7A4D; --c5: #F48FBF;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px -12px rgba(0,0,0,.7);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html { scrollbar-gutter: stable; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; border-radius: 6px; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+header { background: #FEFEFC; color: #113651; border-bottom: 4px solid #E84C1F; color-scheme: light; }
+header .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding-block: 14px; }
+header img { width: 84px; height: auto; display: block; }
+.titles { display: grid; gap: 2px; margin-right: auto; }
+.eyebrow { margin: 0; font-family: var(--font-display); font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #C4401A; }
+h1 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(22px, 3.4vw, 32px); line-height: 1.1; }
+.head-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.sync { font-size: 13px; color: #4E6274; font-variant-numeric: tabular-nums; }
+.sync.offline { color: #B93A14; font-weight: 700; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 8px 14px; border-radius: 12px; border: 1.5px solid #E2DCCD; background: #FFFFFF; color: #113651; font-weight: 700; font-size: 14px; cursor: pointer; text-decoration: none; }
+.btn:hover { border-color: #113651; }
+.btn:disabled { opacity: .55; cursor: wait; }
+.btn-main { background: #C4401A; border-color: #C4401A; color: #FFFFFF; }
+.btn-main:hover { border-color: #113651; }
+
+main { padding-block: 22px 56px; display: grid; gap: 22px; }
+.note { margin: 0; padding: 10px 14px; border-radius: 12px; background: var(--shelf); font-size: 14px; }
+.kpis { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.kpi { background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--radius); padding: 14px 16px; display: grid; gap: 2px; align-content: start; }
+.kpi b { font-family: var(--font-display); font-weight: 700; font-size: 32px; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.kpi span { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.kpi small { font-size: 13px; color: var(--muted); }
+
+.cols { display: grid; gap: 22px; }
+@media (min-width: 900px) { .cols { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: start; } }
+.side { display: grid; gap: 22px; }
+.box { background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--radius); padding: 18px; display: grid; gap: 14px; min-width: 0; }
+.box h2 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 18px; }
+.box-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 12px; }
+.hint { margin: 0; font-size: 13px; color: var(--muted); }
+.empty-msg { margin: 0; color: var(--muted); }
+
+/* Single-series horizontal bars: one hue, value written at the bar's end, names on hover. */
+.bars { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.bar { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr); gap: 10px; align-items: center; padding: 4px 6px; margin-inline: -6px; border-radius: 8px; cursor: default; }
+.bar:hover, .bar:focus-visible { background: var(--bg); }
+.bar-label { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bar-label small { color: var(--muted); font-weight: 600; }
+.bar-plot { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.bar-fill { height: 14px; min-width: 2px; border-radius: 0 4px 4px 0; background: var(--bar); flex: none; }
+.bar-val { font-size: 13px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bar-val small { font-weight: 600; color: var(--muted); }
+@media (max-width: 520px) { .bar { grid-template-columns: minmax(0, 8.5rem) minmax(0, 1fr); } }
+
+.tip { position: fixed; z-index: 30; max-width: min(320px, calc(100vw - 24px)); padding: 10px 12px; border-radius: 10px; background: var(--ink); color: var(--bg); font-size: 13px; line-height: 1.4; box-shadow: var(--shadow); pointer-events: none; }
+.tip b { display: block; font-size: 14px; margin-bottom: 2px; }
+
+.states { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.states li { background: var(--bg); border-radius: 12px; padding: 10px 12px; display: grid; gap: 0; }
+.states b { font-family: var(--font-display); font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.st { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; white-space: nowrap; }
+.st::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex: none; }
+.st.ok { color: var(--c1); } .st.wait { color: var(--c3); } .st.many { color: var(--c2); } .st.none { color: var(--muted); }
+
+.people { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; counter-reset: p; }
+.people li { display: grid; grid-template-columns: 2ch minmax(0, 1fr) auto; gap: 10px; align-items: baseline; font-size: 14px; }
+.people li::before { counter-increment: p; content: counter(p); color: var(--muted); font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+.people span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+.people b { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px; }
+
+.tools { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.tools input[type="search"] { -webkit-appearance: none; appearance: none; flex: 1 1 220px; min-width: 0; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--bg); font-size: 16px; }
+.tools label.chk { display: inline-flex; gap: 8px; align-items: center; font-size: 14px; font-weight: 600; cursor: pointer; }
+.tools input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--brand); }
+.table-wrap { overflow-x: auto; border: 1.5px solid var(--line); border-radius: 12px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { padding: 9px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+thead th { position: sticky; top: 0; background: var(--shelf); font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+th button { all: unset; cursor: pointer; display: inline-flex; gap: 4px; align-items: center; }
+th button:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
+th[aria-sort="ascending"] button::after { content: "▲"; font-size: 9px; }
+th[aria-sort="descending"] button::after { content: "▼"; font-size: 9px; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+th.num { text-align: right; }
+td.game { font-weight: 700; min-width: 12rem; }
+td.names { color: var(--muted); min-width: 14rem; }
+.cxdot { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.cxdot::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--cx); }
+@media (max-width: 700px) { .hide-sm { display: none; } }
+footer { border-top: 1.5px solid var(--line); }
+footer .wrap { padding-block: 18px 28px; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <img src="logo.webp" width="640" height="551" alt="Maratona Lúdica">
+    <div class="titles">
+      <p class="eyebrow">Só para a organização</p>
+      <h1>Painel do evento</h1>
+    </div>
+    <div class="head-actions">
+      <span class="sync" id="sync" aria-live="polite">Carregando…</span>
+      <button class="btn" type="button" id="refresh">Atualizar</button>
+      <button class="btn btn-main" type="button" id="csv">Baixar planilha (CSV)</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <p class="note" id="note" hidden></p>
+  <ul class="kpis" id="kpis" aria-label="Resumo"></ul>
+
+  <div class="cols">
+    <section class="box" aria-labelledby="topTitle">
+      <div class="box-head">
+        <h2 id="topTitle">Os 15 jogos mais procurados</h2>
+        <p class="hint">Passe o mouse ou toque para ver os nomes</p>
+      </div>
+      <ol class="bars" id="topBars"></ol>
+    </section>
+    <div class="side">
+      <section class="box" aria-labelledby="tablesTitle">
+        <h2 id="tablesTitle">Situação das mesas</h2>
+        <ul class="states" id="states"></ul>
+      </section>
+      <section class="box" aria-labelledby="peopleTitle">
+        <h2 id="peopleTitle">Quem mais marcou jogos</h2>
+        <ol class="people" id="people"></ol>
+      </section>
+    </div>
+  </div>
+
+  <div class="cols">
+    <section class="box" aria-labelledby="cxTitle">
+      <div class="box-head">
+        <h2 id="cxTitle">Corações por complexidade</h2>
+        <p class="hint">Média de corações por jogo de cada nível</p>
+      </div>
+      <ol class="bars" id="cxBars"></ol>
+    </section>
+    <section class="box" aria-labelledby="timeTitle">
+      <div class="box-head">
+        <h2 id="timeTitle">Corações por duração</h2>
+        <p class="hint">Média de corações por jogo</p>
+      </div>
+      <ol class="bars" id="timeBars"></ol>
+    </section>
+  </div>
+
+  <section class="box" aria-labelledby="allTitle">
+    <div class="box-head">
+      <h2 id="allTitle">Todos os jogos</h2>
+      <p class="hint" id="allCount"></p>
+    </div>
+    <div class="tools">
+      <input type="search" id="q" placeholder="Buscar jogo ou pessoa…" aria-label="Buscar jogo ou pessoa" autocomplete="off">
+      <label class="chk"><input type="checkbox" id="onlyNone">Só jogos que ninguém marcou</label>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr id="thead"></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">Os dados vêm da planilha e se atualizam a cada minuto. O painel mostra só nomes e jogos marcados, como o catálogo. Os e-mails ficam apenas na planilha.</div></footer>
+
+<div class="tip" id="tip" role="tooltip" hidden></div>
+
+<script src="config.js"></script>
+<script src="jogos.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const norm = s => String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, " ").trim().toLowerCase();
+const fmt1 = n => n.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const plural = (n, um, varios) => `${n} ${n === 1 ? um : varios}`;
+
+/* ---------- Games (same list and numbering as the catalog) ---------- */
+const CX = { "Leve": "var(--c1)", "Leve-Média": "var(--c2)", "Média": "var(--c3)", "Média-Alta": "var(--c4)", "Alta": "var(--c5)" };
+const GAMES = (window.MARATONA_JOGOS || []).map(([no, name, pl, du, cx]) => {
+  const [pmin, pmax = pmin] = pl.split("-").map(Number);
+  const [tmin, tmax = tmin] = du.split("-").map(Number);
+  return { no, name, pl, du, pmin, pmax, tmin, tmax, cx };
+});
+if (!GAMES.length) {
+  document.querySelector("main").innerHTML = '<p class="note"><strong>Não deu para carregar a lista de jogos.</strong> Confira se o arquivo jogos.js foi enviado junto com o painel.</p>';
+  throw new Error("jogos.js não carregou");
+}
+[...GAMES].sort((a, b) => a.name.localeCompare(b.name, "pt")).forEach((g, i) => { g.num = i + 1; });
+const BY_NO = new Map(GAMES.map(g => [g.no, g]));
+const fmtPlayers = g => g.pmin === g.pmax ? `${g.pmin}` : `${g.pmin} a ${g.pmax}`;
+const fmtTime = g => g.tmin === g.tmax ? `${g.tmin} min` : (g.tmin >= 60 && g.tmin % 60 === 0 && g.tmax % 60 === 0)
+  ? `${g.tmin / 60}–${g.tmax / 60} h` : `${g.tmin}–${g.tmax} min`;
+const TIME_BUCKETS = [
+  { label: "Até 30 min", test: g => g.tmax <= 30 },
+  { label: "31 a 60 min", test: g => g.tmax > 30 && g.tmax <= 60 },
+  { label: "61 min a 2 h", test: g => g.tmax > 60 && g.tmax <= 120 },
+  { label: "Mais de 2 h", test: g => g.tmax > 120 }
+];
+
+/* Same wording as "Meus jogos" in the catalog, counted for the whole event. */
+function tableStatus(g, total) {
+  if (!total) return ["none", "Ninguém marcou"];
+  if (g.pmin === 1 && total === 1) return ["ok", "Dá para jogar solo"];
+  if (total < g.pmin) { const k = g.pmin - total; return ["wait", `Falta${k > 1 ? "m" : ""} ${k}`]; }
+  if (total <= g.pmax) return ["ok", "Já dá mesa"];
+  return ["many", `Dá para ${Math.ceil(total / g.pmax)} mesas`];
+}
+
+/* ---------- Data: the sheet's public list, or the catalog's demo data on this device ---------- */
+const API_URL = String(window.MARATONA_API_URL || "").trim();
+const LIVE = API_URL !== "";
+const DEMO_KEY = "maratona-ludica-2026-demo";
+
+async function fetchList() {
+  if (!LIVE) {
+    let rows = [];
+    try { rows = (JSON.parse(localStorage.getItem(DEMO_KEY)) || {}).rows || []; } catch {}
+    if (!rows.length) rows = [
+      { p: "ex1", n: "Ana (exemplo)", ids: [4, 12, 18, 28, 33, 39] }, { p: "ex2", n: "Bruno (exemplo)", ids: [1, 4, 22, 28, 35] },
+      { p: "ex3", n: "Carla (exemplo)", ids: [5, 12, 13, 24, 39] }, { p: "ex4", n: "Diego (exemplo)", ids: [2, 18, 28, 31, 41] },
+      { p: "ex5", n: "Elisa (exemplo)", ids: [5, 12, 22, 29, 39] }, { p: "ex6", n: "Fábio (exemplo)", ids: [4, 20, 26, 36, 38] }
+    ];
+    const people = {}, games = {};
+    rows.forEach(r => { people[r.p] = r.n; (r.ids || []).forEach(id => (games[id] = games[id] || []).push(r.p)); });
+    return { people, games };
+  }
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 20000);
+  try {
+    /* Plain-text body, like the catalog, so Apps Script doesn't need a CORS preflight. */
+    const res = await fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "list" }), signal: ctrl.signal, redirect: "follow" });
+    const data = await res.json();
+    if (!data || data.ok !== true) throw new Error((data && data.error) || "server");
+    return data;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/* ---------- Model ---------- */
+let model = null;
+function build(data) {
+  const people = data.people || {};
+  const ids = no => (data.games[no] || data.games[String(no)] || []).filter(p => p in people);
+  const rows = GAMES.map(g => {
+    const who = ids(g.no).map(p => people[p]).sort((a, b) => a.localeCompare(b, "pt"));
+    const [st, stText] = tableStatus(g, who.length);
+    return { g, n: who.length, who, st, stText };
+  });
+  const perPerson = new Map(Object.keys(people).map(p => [p, 0]));
+  GAMES.forEach(g => ids(g.no).forEach(p => perPerson.set(p, perPerson.get(p) + 1)));
+  const hearts = rows.reduce((s, r) => s + r.n, 0);
+  return { rows, people, perPerson, hearts, nPeople: perPerson.size };
+}
+
+/* ---------- Rendering ---------- */
+function renderKpis(m) {
+  const withInterest = m.rows.filter(r => r.n > 0).length;
+  const ready = m.rows.filter(r => r.st === "ok" || r.st === "many").length;
+  const zero = [...m.perPerson.values()].filter(v => v === 0).length;
+  $("kpis").innerHTML = [
+    [m.nPeople, "pessoas cadastradas", zero ? `${plural(zero, "ainda sem jogo marcado", "ainda sem jogos marcados")}` : ""],
+    [m.hearts, "corações marcados", ""],
+    [m.nPeople ? fmt1(m.hearts / m.nPeople) : "0", "jogos por pessoa", "em média"],
+    [withInterest, "jogos com interesse", `de ${GAMES.length} no acervo`],
+    [ready, "jogos que já dão mesa", "interessados suficientes"]
+  ].map(([b, s, small]) => `<li class="kpi"><b>${b}</b><span>${s}</span>${small ? `<small>${small}</small>` : ""}</li>`).join("");
+}
+
+/* Bars share one scale per chart; `tip` is shown on hover/focus. */
+function barsHTML(items, max) {
+  return items.map((it, i) => `
+    <li class="bar" tabindex="0" data-i="${i}">
+      <span class="bar-label">${it.label}</span>
+      <span class="bar-plot"><span class="bar-fill" style="width:${max ? (it.value / max) * 78 : 0}%"></span><span class="bar-val">${it.valueText}</span></span>
+    </li>`).join("");
+}
+const tips = {};
+function renderBars(id, items) {
+  const max = Math.max(0, ...items.map(it => it.value));
+  tips[id] = items.map(it => it.tip);
+  $(id).innerHTML = items.length ? barsHTML(items, max) : `<li class="empty-msg">Ninguém marcou jogos ainda.</li>`;
+}
+
+function renderCharts(m) {
+  const top = [...m.rows].filter(r => r.n > 0).sort((a, b) => b.n - a.n || a.g.num - b.g.num).slice(0, 15);
+  renderBars("topBars", top.map(r => ({
+    label: esc(r.g.name), value: r.n, valueText: `${r.n}`,
+    tip: `<b>${esc(r.g.name)}</b>${esc(r.stText)} · ${fmtPlayers(r.g)} jogadores<br>${r.who.map(esc).join(", ")}`
+  })));
+
+  const avgBy = (groups) => groups.map(([label, list]) => {
+    const total = list.reduce((s, r) => s + r.n, 0);
+    const avg = list.length ? total / list.length : 0;
+    const best = list.filter(r => r.n).sort((a, b) => b.n - a.n)[0];
+    return { label: `${esc(label)} <small>(${list.length})</small>`, value: avg, valueText: `${fmt1(avg)} <small>· ${total} no total</small>`,
+      tip: `<b>${esc(label)}</b>${plural(list.length, "jogo", "jogos")} · ${plural(total, "coração", "corações")}<br>Mais procurado: ${best ? esc(best.g.name) : "nenhum"}` };
+  });
+  renderBars("cxBars", avgBy(Object.keys(CX).map(k => [k, m.rows.filter(r => r.g.cx === k)])));
+  renderBars("timeBars", avgBy(TIME_BUCKETS.map(b => [b.label, m.rows.filter(r => b.test(r.g))])));
+  if (!m.hearts) ["cxBars", "timeBars"].forEach(id => { $(id).innerHTML = `<li class="empty-msg">Ninguém marcou jogos ainda.</li>`; });
+}
+
+function renderSide(m) {
+  const count = st => m.rows.filter(r => r.st === st).length;
+  $("states").innerHTML = [
+    ["ok", "Já dá mesa"], ["many", "Dá 2 mesas ou mais"], ["wait", "Falta gente"], ["none", "Ninguém marcou"]
+  ].map(([st, label]) => `<li><b>${count(st)}</b><span class="st ${st}">${label}</span></li>`).join("");
+  const top = [...m.perPerson].filter(([, n]) => n > 0)
+    .sort((a, b) => b[1] - a[1] || m.people[a[0]].localeCompare(m.people[b[0]], "pt")).slice(0, 10);
+  $("people").innerHTML = top.length
+    ? top.map(([p, n]) => `<li><span>${esc(m.people[p])}</span><b>${plural(n, "jogo", "jogos")}</b></li>`).join("")
+    : `<li class="empty-msg">Ninguém marcou jogos ainda.</li>`;
+}
+
+/* ---------- Full table ---------- */
+const COLS = [
+  { key: "num", label: "Nº", cls: "num", get: r => r.g.num, cell: r => String(r.g.num).padStart(2, "0") },
+  { key: "name", label: "Jogo", cls: "game", get: r => r.g.name, cell: r => esc(r.g.name) },
+  { key: "players", label: "Jogadores", cls: "num hide-sm", get: r => r.g.pmax * 100 + r.g.pmin, cell: r => fmtPlayers(r.g) },
+  { key: "cx", label: "Complexidade", cls: "hide-sm", get: r => Object.keys(CX).indexOf(r.g.cx), cell: r => `<span class="cxdot" style="--cx:${CX[r.g.cx]}">${r.g.cx}</span>` },
+  { key: "n", label: "Interessados", cls: "num", get: r => r.n, cell: r => r.n },
+  { key: "st", label: "Situação", cls: "", get: r => ["none", "wait", "ok", "many"].indexOf(r.st), cell: r => `<span class="st ${r.st}">${esc(r.stText)}</span>` },
+  { key: "who", label: "Quem marcou", cls: "names", get: r => r.who.join(", "), cell: r => r.who.map(esc).join(", ") || "—" }
+];
+const sort = { key: "n", dir: -1 };
+function renderHead() {
+  $("thead").innerHTML = COLS.map(c => `<th scope="col" class="${c.cls}" ${sort.key === c.key ? `aria-sort="${sort.dir > 0 ? "ascending" : "descending"}"` : ""}><button type="button" data-key="${c.key}">${c.label}</button></th>`).join("");
+}
+function renderTable() {
+  if (!model) return;
+  const words = norm($("q").value).split(" ").filter(Boolean);
+  const col = COLS.find(c => c.key === sort.key);
+  const list = model.rows
+    .filter(r => !$("onlyNone").checked || r.n === 0)
+    .filter(r => { const hay = norm(r.g.name + " " + r.who.join(" ")); return words.every(w => hay.includes(w)); })
+    .sort((a, b) => {
+      const x = col.get(a), y = col.get(b);
+      const d = typeof x === "string" ? x.localeCompare(y, "pt") : x - y;
+      return d * sort.dir || a.g.num - b.g.num;
+    });
+  $("tbody").innerHTML = list.map(r => `<tr>${COLS.map(c => `<td class="${c.cls}">${c.cell(r)}</td>`).join("")}</tr>`).join("")
+    || `<tr><td colspan="${COLS.length}" class="names">Nenhum jogo com essa busca.</td></tr>`;
+  $("allCount").textContent = list.length === GAMES.length ? `${GAMES.length} jogos` : `${list.length} de ${GAMES.length} jogos`;
+}
+$("thead").addEventListener("click", e => {
+  const b = e.target.closest("button[data-key]"); if (!b) return;
+  if (sort.key === b.dataset.key) sort.dir *= -1;
+  else { sort.key = b.dataset.key; sort.dir = ["n", "st", "players", "cx"].includes(sort.key) ? -1 : 1; }
+  renderHead(); renderTable();
+  $("thead").querySelector(`button[data-key="${sort.key}"]`).focus();
+});
+$("q").addEventListener("input", renderTable);
+$("onlyNone").addEventListener("change", renderTable);
+
+/* ---------- Tooltip for the bars ---------- */
+const tip = $("tip");
+function showTip(li, x, y) {
+  const html = (tips[li.parentElement.id] || [])[+li.dataset.i];
+  if (!html) return;
+  tip.innerHTML = html; tip.hidden = false;
+  const r = tip.getBoundingClientRect();
+  tip.style.left = Math.max(12, Math.min(x + 14, innerWidth - r.width - 12)) + "px";
+  tip.style.top = (y + 16 + r.height > innerHeight ? y - r.height - 12 : y + 16) + "px";
+}
+document.addEventListener("pointermove", e => {
+  const li = e.target.closest && e.target.closest(".bar[data-i]");
+  if (li) showTip(li, e.clientX, e.clientY); else if (e.pointerType === "mouse") tip.hidden = true;
+});
+document.addEventListener("pointerdown", e => {
+  const li = e.target.closest && e.target.closest(".bar[data-i]");
+  if (li) showTip(li, e.clientX, e.clientY); else tip.hidden = true;
+});
+const tipAtFocus = () => {
+  const li = document.activeElement && document.activeElement.closest && document.activeElement.closest(".bar[data-i]");
+  if (li) { const r = li.getBoundingClientRect(); showTip(li, r.left + 40, r.bottom - 8); }
+  return !!li;
+};
+document.addEventListener("focusin", () => { if (!tipAtFocus()) tip.hidden = true; });
+document.addEventListener("keydown", e => { if (e.key === "Escape") tip.hidden = true; });
+/* Scrolling moves a keyboard-focused bar's tip along with it; a pointer tip just closes. */
+addEventListener("scroll", () => { if (!tipAtFocus()) tip.hidden = true; }, { passive: true });
+
+/* ---------- CSV for Excel / Google Sheets (semicolon + BOM, as Excel em português expects) ---------- */
+$("csv").addEventListener("click", () => {
+  if (!model) return;
+  /* A name like "=HYPERLINK(...)" must stay text in Excel, never become a formula. */
+  const cell = v => {
+    let s = String(v);
+    if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
+    return /[;"\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  };
+  const lines = [["Nº", "Jogo", "Jogadores", "Duração", "Complexidade", "Interessados", "Situação", "Quem marcou"]]
+    .concat([...model.rows].sort((a, b) => b.n - a.n || a.g.num - b.g.num)
+      .map(r => [r.g.num, r.g.name, fmtPlayers(r.g), fmtTime(r.g), r.g.cx, r.n, r.stText, r.who.join(", ")]));
+  const blob = new Blob(["﻿" + lines.map(l => l.map(cell).join(";")).join("\r\n")], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `maratona-ludica-interesse-${new Date().toISOString().slice(0, 16).replace(/[T:]/g, "-")}.csv`;
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+});
+
+/* ---------- Refresh ---------- */
+let loading = false;
+async function refresh() {
+  if (loading) return;
+  loading = true;
+  $("refresh").disabled = true;
+  try {
+    model = build(await fetchList());
+    renderKpis(model); renderCharts(model); renderSide(model); renderTable();
+    $("sync").className = "sync";
+    $("sync").textContent = "Atualizado às " + new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  } catch (e) {
+    $("sync").className = "sync offline";
+    $("sync").textContent = model ? "Sem conexão: mostrando os últimos dados" : "Não deu para carregar. Confira a internet e o config.js.";
+  } finally {
+    loading = false;
+    $("refresh").disabled = false;
+  }
+}
+$("refresh").addEventListener("click", refresh);
+setInterval(() => { if (!document.hidden) refresh(); }, 60000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) refresh(); });
+
+if (!LIVE) {
+  $("note").hidden = false;
+  $("note").innerHTML = "<strong>Modo demonstração.</strong> Sem o endereço da planilha no config.js, o painel mostra os dados de exemplo deste aparelho.";
+}
+renderHead();
+refresh();
+</script>
+</body>
+</html>
