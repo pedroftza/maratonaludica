@@ -97,5 +97,17 @@ window.MARATONA_JOGOS = [
   [94,"Tulip Bubble","3-5","60","Média","Especulação com tulipas na Holanda de 1637: compre, venda e faça empréstimos enquanto os preços sobem, antes que a bolha estoure."],
   [95,"Turing Machine","1-4","20","Leve-Média","Dedução lógica com uma máquina de cartas perfuradas: teste combinações para descobrir o código secreto antes dos outros."],
   [96,"Wizard","3-6","45","Leve","Jogo de vazas em que, a cada rodada, você aposta quantas vazas vai ganhar; magos e bobos da corte bagunçam os planos."],
-  [97,"Wyatt Earp","2-4","45-60","Leve-Média","Variação de rummy no Velho Oeste: baixe cartas de foras da lei para capturá-los e dividir as recompensas."]
+  [97,"Wyatt Earp","2-4","45-60","Leve-Média","Variação de rummy no Velho Oeste: baixe cartas de foras da lei para capturá-los e dividir as recompensas."],
+  [98,"One Night Ultimate Werewolf","3-10","10","Leve","Lobisomem em uma única noite, sem narrador e sem eliminação: cada um recebe um papel secreto com uma ação noturna, os papéis podem trocar de mãos e, de manhã, a vila tem uma só votação para pegar um lobisomem."],
+  [99,"Bang! Dice Game","3-8","15","Leve","Faroeste de papéis secretos: xerife e ajudantes contra foras da lei e o renegado. Role cinco dados até três vezes para atirar nos vizinhos, curar ou ganhar alcance; cada personagem tem um poder."],
+  [100,"Ito","2-8","10","Leve","Cooperativo de números escondidos: sem dizer o próprio número, cada um dá dicas sobre um tema sorteado (do pior ao melhor, do menor ao maior) para o grupo baixar todas as cartas em ordem crescente."],
+  [101,"Mafia de Cuba","6-12","20","Leve","A caixa de charutos do chefão passa de mão em mão: cada um pode roubar diamantes ou assumir um papel secreto, como capanga fiel, motorista ou agente da CIA. Depois, o chefão interroga a mesa para achar os ladrões."],
+  [102,"The Resistance","5-10","30","Leve","Dedução social sem eliminação: a Resistência cumpre missões contra o Império, mas há espiões infiltrados. O grupo discute, vota as equipes de cada missão e tenta descobrir quem sabota em segredo."],
+  [103,"Dixit","3-6","30","Leve","Cartas com ilustrações oníricas: o narrador dá uma pista sobre uma carta, os outros juntam cartas que combinem e todos tentam adivinhar qual era a dele. A pista não pode ser óbvia nem obscura demais."],
+  [104,"Paranormal Detectives","2-6","50","Leve","Um jogador é o fantasma da vítima e não pode falar: responde às perguntas dos detetives com cartas, mímica e outros meios sobrenaturais. Os detetives tentam descobrir quem matou, como e por quê."],
+  [105,"Piratas!","2-6","20","Leve","Jogo de cartas brasileiro de \"toma essa\": capitães piratas saqueiam, disparam canhões e roubam tesouros uns dos outros para chegar primeiro à fortuna."],
+  [106,"Azul","2-4","45","Leve-Média","Pegue todos os azulejos de uma cor num mostruário e monte a parede do palácio de Évora; o que não couber cai no chão e tira pontos. Clássico moderno de regras simples e decisões apertadas."],
+  [107,"Victorian Masterminds","2-4","60","Média","Com Sherlock Holmes morto, vilões disputam quem espalha mais terror em Londres: posicione agentes nas ações, destrua prédios, sequestre cientistas e monte sua máquina do caos."],
+  [108,"Coatl","1-4","60","Leve-Média","Monte serpentes emplumadas astecas com cabeça, cauda e peças de corpo coloridas, cumprindo as cartas de profecia e de templo que pedem combinações de cores."],
+  [109,"Bonsai","1-4","40","Leve-Média","Cultive seu bonsai: a cada turno, medite para pegar cartas e peças de tronco, folha, flor e fruto, ou cultive para posicioná-las na árvore respeitando os limites do seu vaso."]
 ];

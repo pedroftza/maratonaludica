@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Catálogo dos 96 jogos de tabuleiro da Maratona Lúdica: capas, jogadores, duração, complexidade, filtros e sorteio.">
+<meta name="description" content="Catálogo dos 108 jogos de tabuleiro da Maratona Lúdica: capas, jogadores, duração, complexidade, filtros e sorteio.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Maratona Lúdica · Catálogo de jogos">
-<meta property="og:description" content="Os 96 jogos que vão estar nas mesas. Filtre por jogadores, tempo e complexidade.">
+<meta property="og:description" content="Os 108 jogos que vão estar nas mesas. Filtre por jogadores, tempo e complexidade.">
 <meta name="theme-color" content="#113651">
 <link rel="icon" type="image/png" href="icone.png">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}</style>
@@ -406,7 +406,7 @@ dialog.reg { width: min(480px, calc(100vw - 24px)); }
 
 <footer>
   <div class="wrap">
-    <span>Maratona Lúdica · <span id="footCount">96</span> jogos no acervo</span>
+    <span>Maratona Lúdica · <span id="footCount">108</span> jogos no acervo</span>
     <span>Capas: Ludopedia. Quem marca um jogo tem o nome mostrado no catálogo; o e-mail fica só com a organização.</span>
   </div>
 </footer>
@@ -478,12 +478,12 @@ const CX = {
   "Média-Alta": { lvl: 4, color: "var(--c4)" },
   "Alta":       { lvl: 5, color: "var(--c5)" }
 };
-const COOP = new Set([6, 22, 29, 43, 58, 88]);
-const PARTY = new Set([5, 12, 51, 66, 68, 73, 91]);
+const COOP = new Set([6, 22, 29, 43, 58, 88, 100]);
+const PARTY = new Set([5, 12, 51, 66, 68, 73, 91, 98, 99, 100, 101, 102, 103, 104, 105]);
 /* Other names people may search for (original or Brazilian titles). */
-const ALIASES = {"32": "Temby", "34": "Thread Threaded A Game of Needles and Points", "4": "Concordia", "5": "Hues and Cues Cores com Dicas", "10": "Exploradores de Navoria Explores", "21": "Relógio Astronômico de Praga", "28": "Busca por Inteligência Extraterrestre", "36": "Umbraterna Tyrants of the Underdark", "37": "A Wild Venture", "38": "Criaturas Maravilhosas", "40": "Linko", "42": "Queen's Garden", "50": "Dark Providence", "53": "Dune Imperium", "54": "Dune Uprising", "56": "Endeavor Deep Sea Mar Profundo", "58": "Defenders of Grimheim", "59": "Feyas Swamp", "62": "Galileu Galilei", "63": "GWT", "65": "Heat", "67": "Raiders of Scythia", "71": "MLEM Space Agency", "72": "The Name of the Rose", "73": "Pegue em 6 6 nimmt", "79": "Rococó", "82": "Point Salad", "83": "Sanctuary", "85": "Senhor dos Aneis Duel Lord of the Rings Duel for Middle-earth", "92": "TTR", "93": "TTR Europe"};
-/* Ludopedia game pages for the titles added in October; older titles use a search by name. */
-const LUDO_SLUG = {"32": "tenby", "34": "threaded-a-game-of-needles-and-points", "40": "linko-abluxxen", "41": "ark-nova", "42": "azul-queen-s-garden", "43": "bomb-busters", "44": "brass-birmingham", "45": "brass-lancashire", "46": "captain-flip", "47": "cascadia", "48": "clank-catacombs", "49": "cyclades-legendary", "50": "cthulhu-dark-providence", "51": "deception-murder-in-hong-kong", "52": "deep-regrets", "53": "dune-imperium", "54": "dune-imperium-uprising", "55": "el-grande", "56": "endeavor-deep-sea", "57": "everdell-silverfrost", "58": "fate-defenders-of-grimheim", "59": "feya-s-swamp", "60": "flamecraft", "61": "fromage", "62": "galileo-galilei", "63": "great-western-trail-second-edition", "64": "harmonies", "65": "heat-pedal-to-the-metal", "66": "hitster", "67": "raiders-of-scythia", "68": "la-cuenta", "69": "magical-athlete-i", "70": "mariposas", "71": "mlem-space-agency", "72": "the-name-of-the-rose", "73": "6-nimmt-25-jahre", "74": "pickomino-heckmeck-am-bratwurmeck", "75": "potion-explosion", "76": "race-for-the-galaxy", "77": "rebel-princess", "78": "rebirth", "79": "rococo-deluxe-edition", "80": "russian-railroads", "81": "sagrada", "82": "point-salad", "83": "sanctuary-i", "84": "scout", "85": "the-lord-of-the-rings-duel-for-middle-earth", "86": "shackleton-base-a-journey-to-the-moon", "87": "skyrise", "88": "slay-the-spire-the-board-game", "89": "sushi-go", "90": "tacta", "91": "telma-3-edicao", "92": "ticket-to-ride", "93": "ticket-to-ride-europe", "94": "tulip-bubble", "95": "turing-machine", "96": "wizard", "97": "wyatt-earp"};
+const ALIASES = {"32": "Temby", "34": "Thread Threaded A Game of Needles and Points", "4": "Concordia", "5": "Hues and Cues Cores com Dicas", "10": "Exploradores de Navoria Explores", "21": "Relógio Astronômico de Praga", "28": "Busca por Inteligência Extraterrestre", "36": "Umbraterna Tyrants of the Underdark", "37": "A Wild Venture", "38": "Criaturas Maravilhosas", "40": "Linko", "42": "Queen's Garden", "50": "Dark Providence", "53": "Dune Imperium", "54": "Dune Uprising", "56": "Endeavor Deep Sea Mar Profundo", "58": "Defenders of Grimheim", "59": "Feyas Swamp", "62": "Galileu Galilei", "63": "GWT", "65": "Heat", "67": "Raiders of Scythia", "71": "MLEM Space Agency", "72": "The Name of the Rose", "73": "Pegue em 6 6 nimmt", "79": "Rococó", "82": "Point Salad", "83": "Sanctuary", "85": "Senhor dos Aneis Duel Lord of the Rings Duel for Middle-earth", "92": "TTR", "93": "TTR Europe", "98": "Lobisomem ONUW", "99": "Bang Dice Bang Dados", "102": "Resistencia Resistence", "104": "Detetives Paranormais", "106": "Azul original", "108": "Cóatl"};
+/* Ludopedia game pages for the titles added since October; older titles use a search by name. */
+const LUDO_SLUG = {"32": "tenby", "34": "threaded-a-game-of-needles-and-points", "40": "linko-abluxxen", "41": "ark-nova", "42": "azul-queen-s-garden", "43": "bomb-busters", "44": "brass-birmingham", "45": "brass-lancashire", "46": "captain-flip", "47": "cascadia", "48": "clank-catacombs", "49": "cyclades-legendary", "50": "cthulhu-dark-providence", "51": "deception-murder-in-hong-kong", "52": "deep-regrets", "53": "dune-imperium", "54": "dune-imperium-uprising", "55": "el-grande", "56": "endeavor-deep-sea", "57": "everdell-silverfrost", "58": "fate-defenders-of-grimheim", "59": "feya-s-swamp", "60": "flamecraft", "61": "fromage", "62": "galileo-galilei", "63": "great-western-trail-second-edition", "64": "harmonies", "65": "heat-pedal-to-the-metal", "66": "hitster", "67": "raiders-of-scythia", "68": "la-cuenta", "69": "magical-athlete-i", "70": "mariposas", "71": "mlem-space-agency", "72": "the-name-of-the-rose", "73": "6-nimmt-25-jahre", "74": "pickomino-heckmeck-am-bratwurmeck", "75": "potion-explosion", "76": "race-for-the-galaxy", "77": "rebel-princess", "78": "rebirth", "79": "rococo-deluxe-edition", "80": "russian-railroads", "81": "sagrada", "82": "point-salad", "83": "sanctuary-i", "84": "scout", "85": "the-lord-of-the-rings-duel-for-middle-earth", "86": "shackleton-base-a-journey-to-the-moon", "87": "skyrise", "88": "slay-the-spire-the-board-game", "89": "sushi-go", "90": "tacta", "91": "telma-3-edicao", "92": "ticket-to-ride", "93": "ticket-to-ride-europe", "94": "tulip-bubble", "95": "turing-machine", "96": "wizard", "97": "wyatt-earp", "98": "one-night-ultimate-werewolf", "99": "bang-the-dice-game", "100": "ito", "101": "mafia-de-cuba", "102": "the-resistance", "103": "dixit", "104": "paranormal-detectives", "105": "piratas-3-edicao", "106": "azul", "107": "victorian-masterminds", "108": "coatl", "109": "bonsai"};
 /* Name to search on Ludopedia when it differs from the catalog name; null = not listed there. */
 const LUDO_SEARCH = { 4: "Concordia", 5: "Cores com Dicas", 10: "Exploradores de Navoria", 21: "Orloj", 36: "Tiranos da Umbreterna", 38: "Criaturas Maravilhosas" };
 
