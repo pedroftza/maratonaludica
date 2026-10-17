@@ -56,7 +56,7 @@ window.MARATONA_JOGOS = [
   [53,"Duna: Imperium","1-4","60-120","Média","Construção de baralho com alocação de trabalhadores no universo de Duna: ganhe influência nas facções, controle Arrakis e vença combates."],
   [54,"Duna: Imperium – Uprising","1-6","60-120","Média-Alta","Versão independente e ampliada de Duna: Imperium, com espiões, contratos, vermes da areia e modo para 6 em equipes."],
   [55,"El Grande","2-5","60-120","Média","Clássico de controle de área na Espanha medieval: dispute as regiões com seus cavaleiros usando cartas de poder e ações que mexem no tabuleiro."],
-  [56,"Endeavor: Age of Sail","2-5","60-90","Média","Expansão marítima do século XVIII: explore rotas, ocupe cidades e construa prédios que fazem crescer sua indústria, cultura e riqueza."],
+  [56,"Endeavor: Mar Profundo","1-4","120","Média","Dirija um instituto de pesquisa marinha: recrute especialistas, explore novos pontos do oceano, pesquise locais de mergulho, publique artigos e lance ações de conservação. Dos autores de Endeavor: Age of Sail, com regras mais enxutas."],
   [57,"Everdell Silverfrost","1-4","40-80","Média","Jogo independente da série Everdell, ambientado nas terras nevadas ao sul do vale: construa e mantenha sua cidade de criaturas com novas cartas."],
   [58,"Fate: Defensores de Grimheim","1-4","60-180","Média","Cooperativo nórdico: heróis defendem a cidade de Grimheim das ondas de monstros enviadas por Loki, com combate tático e cartas do destino."],
   [59,"Feya's Swamp","2-4","60-100","Média","Lidere um clã do pântano: escolha locais de pesca e assentamento e adapte-se ao ambiente para prosperar mais que os rivais."],
